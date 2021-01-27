@@ -11,6 +11,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setfilterName ] = useState('')
+  const [ displayPeople, setDisplayPeople ] = useState(persons)
 
   const checkName = (name, arr) => {
     return arr.find(entry => entry.name.toLowerCase() === name.toLowerCase())
@@ -28,24 +29,39 @@ const App = () => {
       console.log('wanna add',newName)
       const objName = {
         name: newName,
-        phone: newNumber
+        number: newNumber
       }
-      checkName(newName, persons) 
-      ? alert('same name')
-      : setPersons(persons.concat(objName))
+      // checkName(newName, persons) 
+      // ? alert('same name')
+      // : setPersons(persons.concat(objName))
+
+      if(checkName(newName, persons)) {
+        alert('same name')
+      } else{
+        setPersons(persons.concat(objName))
+        setDisplayPeople(persons.concat(objName))
+      }
+      setNewName('')
+      setNewNumber('')
       
   }
 
   const handleFilterName = (e) => {
-    const name = e.target.value
-    console.log('filter name is', name);
-    if(name){
-      setPersons(
-        persons.filter(person => person.name === 'Arto Hellas')
-      )
-    }
-    
+    const name = e.target.value.toLowerCase()
     setfilterName(name)
+    let newArr = []
+    for(let person of persons) {
+        if(person.name.toLowerCase().includes(name)){
+          // console.log('name ', name);
+          // console.log('person name ', person.name);
+          // console.log('includes!');
+          newArr.push(person)
+        }
+    }
+    console.log('new people is', newArr);
+    newArr.length >= 1
+    ? setDisplayPeople(newArr)
+    : setDisplayPeople(persons)
 
   }
 
@@ -73,7 +89,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => {
+      {displayPeople.map(person => {
           return <Entry person={person}></Entry>
       })}
     </div>
