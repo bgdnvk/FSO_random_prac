@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Entry from './components/Entry'
+import FilterPhones from './components/FilterPhones'
+import PersonForm from './components/PersonForm'
+import Title from './components/Title'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,82 +16,22 @@ const App = () => {
   const [ filterName, setfilterName ] = useState('')
   const [ displayPeople, setDisplayPeople ] = useState(persons)
 
-  const checkName = (name, arr) => {
-    return arr.find(entry => entry.name.toLowerCase() === name.toLowerCase())
-  }
 
-  const handleNameChange = (e) => {
-    console.log('changin name', e.target.value)
-    setNewName(e.target.value)
-  }
-
-  const handleNumberChange = (e) => setNewNumber(e.target.value)
-
-  const addEntry = (e) => {
-      e.preventDefault()
-      console.log('wanna add',newName)
-      const objName = {
-        name: newName,
-        number: newNumber
-      }
-      // checkName(newName, persons) 
-      // ? alert('same name')
-      // : setPersons(persons.concat(objName))
-
-      if(checkName(newName, persons)) {
-        alert('same name')
-      } else{
-        setPersons(persons.concat(objName))
-        setDisplayPeople(persons.concat(objName))
-      }
-      setNewName('')
-      setNewNumber('')
-      
-  }
-
-  const handleFilterName = (e) => {
-    const name = e.target.value.toLowerCase()
-    setfilterName(name)
-    let newArr = []
-    for(let person of persons) {
-        if(person.name.toLowerCase().includes(name)){
-          // console.log('name ', name);
-          // console.log('person name ', person.name);
-          // console.log('includes!');
-          newArr.push(person)
-        }
-    }
-    console.log('new people is', newArr);
-    newArr.length >= 1
-    ? setDisplayPeople(newArr)
-    : setDisplayPeople(persons)
-
-  }
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <input value={filterName}
-      onChange={handleFilterName}></input>
+      <Title text='Phonebook'></Title>
+      <FilterPhones filterName={filterName} persons={persons} 
+      setDisplayPeople={setDisplayPeople} setfilterName={setfilterName}></FilterPhones>
 
-      <form onSubmit={addEntry}>
-        <h1>add new name</h1>
-        <div>
-          name: 
-          <input value={newName}
-              onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          phone:
-          <input value={newNumber}
-            onChange={handleNumberChange}></input>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <PersonForm newName={newName} setNewName={setNewName}
+      newNumber={newNumber} setNewNumber={setNewNumber}
+      persons = {persons} setPersons={setPersons}
+      setDisplayPeople={setDisplayPeople}
+      ></PersonForm>
+
+      
+      <Title text='Numbers'></Title>
       {displayPeople.map(person => {
           return <Entry person={person}></Entry>
       })}
