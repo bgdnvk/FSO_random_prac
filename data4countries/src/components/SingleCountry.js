@@ -1,0 +1,24 @@
+import React from 'react'
+
+const SingleCountry = ({countriesDisplay}) => {
+    console.log(countriesDisplay[0]);
+    const c = countriesDisplay[0]
+    console.log(c.languages);
+    return(
+        <div>
+            <h2>{c.name}</h2>
+            <div>
+            capital {c.capital}
+            </div>
+            <div>
+                {`population ${c.population}`}
+            </div>
+            <h2>languages</h2>
+             <ul>
+                 {c.languages.map(lang => <li>{lang.name}</li>)}
+             </ul>
+             <img src={c.flag} width='200'></img>
+        </div>
+    )
+}
+export default SingleCountry
