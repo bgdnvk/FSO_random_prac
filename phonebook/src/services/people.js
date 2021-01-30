@@ -21,4 +21,4 @@ const remove = (id) => {
     return req.then(res => res.data)
 }
 
-export default { getAll, create, update}
+export default { getAll, create, update, remove}

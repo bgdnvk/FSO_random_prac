@@ -46,7 +46,9 @@ const App = () => {
 
       
       <Title text='Numbers'></Title>
-      <ShowPhones displayPeople={displayPeople}></ShowPhones>
+      <ShowPhones displayPeople={displayPeople}
+      setPersons={setPersons}
+      setDisplayPeople={setDisplayPeople}></ShowPhones>
     </div>
   )
 }

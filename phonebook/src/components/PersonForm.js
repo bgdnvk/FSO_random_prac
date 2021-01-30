@@ -21,8 +21,22 @@ const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setP
             name: newName,
             number: newNumber
           }
+          console.log('checkin name', checkName(newName, persons).id);
           if(checkName(newName, persons)) {
-            alert('same name')
+            const r = window.confirm('update number?')
+            if(r){
+              const id = checkName(newName, persons).id
+              peopleService
+                .update(id, objName)
+                .then( res => {
+                  const newList = persons.map( person => person.id !== id? person: res)
+                  setPersons(newList)
+                  setDisplayPeople(newList)
+                })
+            } else{
+              alert('cant add same name')
+            }
+
           } else{
             // setPersons(persons.concat(objName))
             // setDisplayPeople(persons.concat(objName))
