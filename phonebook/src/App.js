@@ -4,6 +4,8 @@ import FilterPhones from './components/FilterPhones'
 import PersonForm from './components/PersonForm'
 import Title from './components/Title'
 import axios from 'axios'
+import peopleServce from './services/people'
+import ShowPhones from './components/ShowPhones'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,11 +16,17 @@ const App = () => {
 
   const hook = () => {
     console.log('inside hook');
-    axios
-      .get('http://localhost:3001/persons')
-      .then(res => {
-        setPersons(res.data)
-        setDisplayPeople(res.data)
+    // axios
+    //   .get('http://localhost:3001/persons')
+    //   .then(res => {
+    //     setPersons(res.data)
+    //     setDisplayPeople(res.data)
+    //   })
+    peopleServce
+      .getAll()
+      .then(people => {
+        setPersons(people)
+        setDisplayPeople(people)
       })
   }
 
@@ -38,9 +46,7 @@ const App = () => {
 
       
       <Title text='Numbers'></Title>
-      {displayPeople.map(person => {
-          return <Entry person={person}></Entry>
-      })}
+      <ShowPhones displayPeople={displayPeople}></ShowPhones>
     </div>
   )
 }

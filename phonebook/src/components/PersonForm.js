@@ -1,4 +1,5 @@
 import React from 'react'
+import peopleService from '../services/people'
 
 const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setPersons, setDisplayPeople}) => {
 
@@ -23,8 +24,15 @@ const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setP
           if(checkName(newName, persons)) {
             alert('same name')
           } else{
-            setPersons(persons.concat(objName))
-            setDisplayPeople(persons.concat(objName))
+            // setPersons(persons.concat(objName))
+            // setDisplayPeople(persons.concat(objName))
+            peopleService
+              .create(objName)
+              .then( res => {
+                console.log('added', res);
+                setPersons(persons.concat(res))
+                setDisplayPeople(persons.concat(res))
+              })
           }
           setNewName('')
           setNewNumber('')
