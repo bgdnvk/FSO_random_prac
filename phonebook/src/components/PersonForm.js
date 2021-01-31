@@ -1,7 +1,8 @@
 import React from 'react'
 import peopleService from '../services/people'
 
-const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setPersons, setDisplayPeople}) => {
+const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setPersons, setDisplayPeople
+, setSuccess}) => {
 
     const checkName = (name, arr) => {
         return arr.find(entry => entry.name.toLowerCase() === name.toLowerCase())
@@ -21,7 +22,7 @@ const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setP
             name: newName,
             number: newNumber
           }
-          console.log('checkin name', checkName(newName, persons).id);
+          // console.log('checkin name', checkName(newName, persons).id);
           if(checkName(newName, persons)) {
             const r = window.confirm('update number?')
             if(r){
@@ -46,6 +47,7 @@ const PersonForm = ({newName, newNumber, setNewName, setNewNumber, persons, setP
                 console.log('added', res);
                 setPersons(persons.concat(res))
                 setDisplayPeople(persons.concat(res))
+                setSuccess(`added ${res.name}!`)
               })
           }
           setNewName('')

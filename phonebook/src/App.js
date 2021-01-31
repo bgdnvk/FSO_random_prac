@@ -6,6 +6,8 @@ import Title from './components/Title'
 import axios from 'axios'
 import peopleServce from './services/people'
 import ShowPhones from './components/ShowPhones'
+import ErrorNotification from './components/ErrorNotification'
+import SuccessNotification from './components/successNotification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -13,15 +15,11 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setfilterName ] = useState('')
   const [ displayPeople, setDisplayPeople ] = useState(persons)
+  const [ errorMsg, setErrorMsg ] = useState(null)
+  const [success, setSuccess] = useState('')
 
   const hook = () => {
     console.log('inside hook');
-    // axios
-    //   .get('http://localhost:3001/persons')
-    //   .then(res => {
-    //     setPersons(res.data)
-    //     setDisplayPeople(res.data)
-    //   })
     peopleServce
       .getAll()
       .then(people => {
@@ -35,6 +33,8 @@ const App = () => {
   return (
     <div>
       <Title text='Phonebook'></Title>
+      <ErrorNotification msg={errorMsg} setErrorMsg={setErrorMsg}></ErrorNotification>
+      <SuccessNotification msg={success} setSuccess={setSuccess}></SuccessNotification>
       <FilterPhones filterName={filterName} persons={persons} 
       setDisplayPeople={setDisplayPeople} setfilterName={setfilterName}></FilterPhones>
 
@@ -42,13 +42,15 @@ const App = () => {
       newNumber={newNumber} setNewNumber={setNewNumber}
       persons = {persons} setPersons={setPersons}
       setDisplayPeople={setDisplayPeople}
+      setSuccess={setSuccess}
       ></PersonForm>
 
       
       <Title text='Numbers'></Title>
       <ShowPhones displayPeople={displayPeople}
       setPersons={setPersons}
-      setDisplayPeople={setDisplayPeople}></ShowPhones>
+      setDisplayPeople={setDisplayPeople}
+      setErrorMsg={setErrorMsg}></ShowPhones>
     </div>
   )
 }

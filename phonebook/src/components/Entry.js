@@ -1,7 +1,7 @@
 import React from 'react'
 import peopleService from '../services/people'
 
-const Entry = ({person, setPersons, setDisplayPeople, displayPeople}) => {
+const Entry = ({person, setPersons, setDisplayPeople, displayPeople, setErrorMsg}) => {
     const onclick = () => {
         const r = window.confirm("delete?")
         console.log(person);
@@ -13,6 +13,12 @@ const Entry = ({person, setPersons, setDisplayPeople, displayPeople}) => {
                     setDisplayPeople(
                         displayPeople.filter(p => p.id !== person.id)
                     )
+                })
+                .catch( e => {
+                    setErrorMsg('already removed!')
+                    setTimeout(() => {
+                        setErrorMsg(null)
+                    }, 5000)
                 })
         }
     }
